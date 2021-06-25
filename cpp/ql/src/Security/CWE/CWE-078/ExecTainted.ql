@@ -18,6 +18,7 @@ import semmle.code.cpp.security.Security
 import DataFlow::PathGraph
 import semmle.code.cpp.ir.dataflow.TaintTracking
 import semmle.code.cpp.ir.IR
+import semmle.code.cpp.security.FlowSources
 
 Expr sinkAsArgumentIndirection(DataFlow::Node sink) {
   result = sink.asOperand()
@@ -30,10 +31,12 @@ Expr sinkAsArgumentIndirection(DataFlow::Node sink) {
 class ExecTaintConfiguration extends TaintTracking::Configuration {
   ExecTaintConfiguration() { this = "ExecTaintConfiguration" }
 
-  override predicate isSource(DataFlow::Node source) { isUserInput(source.asDefiningArgument(), _) }
+  override predicate isSource(DataFlow::Node source) { 
+    source instanceof FlowSource
+  }
 
   override predicate isSink(DataFlow::Node sink) {
-    shellCommand(sinkAsArgumentIndirection(sink), _) // TODO: better ergonomics for this
+    shellCommand(sinkAsArgumentIndirection(sink), _)
   }
 
   override predicate isSanitizer(DataFlow::Node node) {
@@ -56,15 +59,19 @@ class ExecTaintConfiguration extends TaintTracking::Configuration {
     or
     exists(FormattingFunctionCall call | node.asExpr() = call.getMinFieldWidthArgument(_))
   }
+
+  override predicate isSanitizerOut(DataFlow::Node node) {
+    isSink(node) // Prevent duplicates along a call chain, since `shellCommand` will include wrappers
+  }
 }
 
 from
  DataFlow::PathNode sourceNode, DataFlow::PathNode sinkNode,
   string taintCause, string callChain, ExecTaintConfiguration conf
 where
-  shellCommand(sinkAsArgumentIndirection(pragma[only_bind_out](sinkNode).getNode()), callChain) and
+  shellCommand(sinkAsArgumentIndirection(sinkNode.getNode()), callChain) and
   conf.hasFlowPath(sourceNode, sinkNode) and
-  isUserInput(pragma[only_bind_out](sourceNode).getNode().asDefiningArgument(), taintCause)
-select sinkNode, sourceNode, sinkNode,
+  taintCause = sourceNode.getNode().(FlowSource).getSourceType()
+select sinkAsArgumentIndirection(sinkNode.getNode()), sourceNode, sinkNode,
   "This argument to an OS command is derived from $@ and then passed to " + callChain, sourceNode,
   "user input (" + taintCause + ")"
