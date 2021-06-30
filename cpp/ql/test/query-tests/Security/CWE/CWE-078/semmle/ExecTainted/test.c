@@ -31,3 +31,68 @@ int main(int argc, char** argv) {
   }
 }
 
+void test2(char* arg2) {
+  // GOOD?: the user string is the *first* part of the command, like $CC in many environments
+  char *envCC = getenv("CC");
+  
+  char command[1000];
+  sprintf("%s %s", envCC, arg2);
+  system(command);
+}
+
+void test3(char* arg1) {
+  // GOOD?: the user string is a `$CFLAGS` environment variable
+  char *envCflags = getenv("CFLAGS");
+  
+  char command[1000];
+  sprintf(command, "%s %s", arg1, envCflags);
+  system(command);
+}
+
+typedef unsigned long size_t;
+typedef void FILE;
+size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
+char *strncat(char *s1, const char *s2, size_t n);
+
+void test4(FILE *f) {
+  // BAD: the user string is injected directly into a command
+  char command[1000] = "mv ", filename[1000];
+  fread(filename, 1, 1000, f);
+
+  strncat(command, filename, 1000);
+  system(command);
+}
+
+void test5(FILE *f) {
+  // GOOD?: the user string is the start of a command
+  char command[1000], filename[1000] = " test.txt";
+  fread(command, 1, 1000, f);
+
+  strncat(command, filename, 1000);
+  system(command);
+}
+
+int execl(char *path, char *arg1, ...);
+
+void test6(FILE *f) {
+  // BAD: the user string is injected directly into a command
+  char command[1000] = "mv ", filename[1000];
+  fread(filename, 1, 1000, f);
+
+  strncat(command, filename, 1000);
+  execl("/bin/sh", "sh", "-c", command);
+}
+
+void test7(FILE *f) {
+  // GOOD: the user string is a positional argument to a shell script
+  char path[1000] = "/home/me/", filename[1000];
+  fread(filename, 1, 1000, f);
+
+  strncat(path, filename, 1000);
+  execl("/bin/sh", "sh", "-c", "script.sh", path);
+}
+
+// TODO: concatenations via operator+, more sinks, test for call context sensitivity at
+// concatenation site
+
+// open question: do we want to report certain sources even when they're the start of the string?

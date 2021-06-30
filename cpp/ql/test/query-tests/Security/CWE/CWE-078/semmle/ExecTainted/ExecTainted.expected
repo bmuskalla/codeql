@@ -1,1 +1,345 @@
-| test.c:21:12:21:19 | command1 | This argument to an OS command is derived from $@ and then passed to system(string) | test.c:14:20:14:23 | argv | user input (argv) |
+edges
+| test.c:14:20:14:23 | argv | test.c:14:20:14:26 | Store |
+| test.c:14:20:14:23 | argv | test.c:14:20:14:26 | access to array |
+| test.c:14:20:14:23 | argv | test.c:20:45:20:52 | userName |
+| test.c:14:20:14:23 | argv | test.c:20:45:20:52 | userName indirection |
+| test.c:14:20:14:23 | argv | test.c:20:45:20:52 | userName indirection |
+| test.c:14:20:14:23 | argv | test.c:21:12:21:19 | (const char *)... |
+| test.c:14:20:14:23 | argv | test.c:21:12:21:19 | command1 indirection |
+| test.c:14:20:14:23 | argv | test.c:27:45:27:52 | (const char *)... |
+| test.c:14:20:14:23 | argv | test.c:27:45:27:52 | userName |
+| test.c:14:20:14:23 | argv | test.c:27:45:27:52 | userName indirection |
+| test.c:20:13:20:20 | sprintf output argument | test.c:21:12:21:19 | command1 indirection |
+| test.c:20:45:20:52 | userName indirection | test.c:20:13:20:20 | sprintf output argument |
+| test.c:20:45:20:52 | userName indirection | test.c:20:13:20:20 | sprintf output argument |
+| test.c:29:13:29:20 | sprintf output argument | test.c:30:12:30:19 | command2 indirection |
+| test.c:36:17:36:28 | (char *)... | test.c:36:17:36:28 | Store |
+| test.c:36:17:36:28 | (char *)... | test.c:39:20:39:24 | (const char *)... |
+| test.c:36:17:36:28 | (char *)... | test.c:39:20:39:24 | envCC |
+| test.c:36:17:36:28 | (char *)... | test.c:39:20:39:24 | envCC indirection |
+| test.c:45:21:45:26 | call to getenv | test.c:48:35:48:43 | envCflags indirection |
+| test.c:45:21:45:36 | (char *)... | test.c:45:21:45:36 | Store |
+| test.c:45:21:45:36 | (char *)... | test.c:48:35:48:43 | envCflags |
+| test.c:45:21:45:36 | (char *)... | test.c:48:35:48:43 | envCflags indirection |
+| test.c:45:21:45:36 | (char *)... | test.c:49:10:49:16 | (const char *)... |
+| test.c:45:21:45:36 | (char *)... | test.c:49:10:49:16 | command indirection |
+| test.c:48:11:48:17 | sprintf output argument | test.c:49:10:49:16 | command indirection |
+| test.c:48:35:48:43 | envCflags indirection | test.c:48:11:48:17 | sprintf output argument |
+| test.c:48:35:48:43 | envCflags indirection | test.c:48:11:48:17 | sprintf output argument |
+| test.c:60:9:60:16 | (void *)... | test.c:60:9:60:16 | filename indirection |
+| test.c:60:9:60:16 | fread output argument | test.c:62:20:62:27 | (const char *)... |
+| test.c:60:9:60:16 | fread output argument | test.c:62:20:62:27 | filename indirection |
+| test.c:60:9:60:16 | fread output argument | test.c:62:20:62:27 | filename indirection |
+| test.c:60:9:60:16 | fread output argument | test.c:63:10:63:16 | (const char *)... |
+| test.c:60:9:60:16 | fread output argument | test.c:63:10:63:16 | command indirection |
+| test.c:62:11:62:17 | strncat output argument | test.c:63:10:63:16 | command indirection |
+| test.c:62:20:62:27 | filename indirection | test.c:62:11:62:17 | strncat output argument |
+| test.c:62:20:62:27 | filename indirection | test.c:62:11:62:17 | strncat output argument |
+| test.c:69:9:69:15 | (void *)... | test.c:69:9:69:15 | command indirection |
+| test.c:69:9:69:15 | fread output argument | test.c:71:11:71:17 | array to pointer conversion |
+| test.c:69:9:69:15 | fread output argument | test.c:71:11:71:17 | command indirection |
+| test.c:69:9:69:15 | fread output argument | test.c:72:10:72:16 | (const char *)... |
+| test.c:69:9:69:15 | fread output argument | test.c:72:10:72:16 | command indirection |
+| test.c:71:11:71:17 | strncat output argument | test.c:72:10:72:16 | command indirection |
+| test.c:78:9:78:16 | (void *)... | test.c:78:9:78:16 | filename indirection |
+| test.c:78:9:78:16 | fread output argument | test.c:80:20:80:27 | (const char *)... |
+| test.c:78:9:78:16 | fread output argument | test.c:80:20:80:27 | filename indirection |
+| test.c:78:9:78:16 | fread output argument | test.c:80:20:80:27 | filename indirection |
+| test.c:78:9:78:16 | fread output argument | test.c:81:10:81:16 | (const char *)... |
+| test.c:78:9:78:16 | fread output argument | test.c:81:10:81:16 | command indirection |
+| test.c:80:11:80:17 | strncat output argument | test.c:81:10:81:16 | command indirection |
+| test.c:80:20:80:27 | filename indirection | test.c:80:11:80:17 | strncat output argument |
+| test.c:80:20:80:27 | filename indirection | test.c:80:11:80:17 | strncat output argument |
+pathExplore
+| test.c:14:20:14:23 | argv | test.c:14:20:14:26 | Address | 0 |
+| test.c:14:20:14:23 | argv | test.c:14:20:14:26 | Left | 0 |
+| test.c:14:20:14:23 | argv | test.c:14:20:14:26 | PointerAdd | 0 |
+| test.c:14:20:14:23 | argv | test.c:14:20:14:26 | Store | 0 |
+| test.c:14:20:14:23 | argv | test.c:14:20:14:26 | StoreValue | 0 |
+| test.c:14:20:14:23 | argv | test.c:14:20:14:26 | access to array | 0 |
+| test.c:14:20:14:23 | argv | test.c:20:5:20:11 | userName | 0 |
+| test.c:14:20:14:23 | argv | test.c:20:13:20:20 | Chi | 0 |
+| test.c:14:20:14:23 | argv | test.c:20:13:20:20 | ChiPartial | 0 |
+| test.c:14:20:14:23 | argv | test.c:20:13:20:20 | sprintf output argument | 0 |
+| test.c:14:20:14:23 | argv | test.c:20:45:20:52 | Address | 0 |
+| test.c:14:20:14:23 | argv | test.c:20:45:20:52 | Address | 0 |
+| test.c:14:20:14:23 | argv | test.c:20:45:20:52 | Load | 0 |
+| test.c:14:20:14:23 | argv | test.c:20:45:20:52 | userName | 0 |
+| test.c:14:20:14:23 | argv | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:20:14:23 | argv | test.c:21:5:21:10 | command1 | 0 |
+| test.c:14:20:14:23 | argv | test.c:21:12:21:19 | (const char *)... | 0 |
+| test.c:14:20:14:23 | argv | test.c:21:12:21:19 | Address | 0 |
+| test.c:14:20:14:23 | argv | test.c:21:12:21:19 | command1 indirection | 0 |
+| test.c:14:20:14:23 | argv | test.c:27:5:27:21 | userName | 0 |
+| test.c:14:20:14:23 | argv | test.c:27:45:27:52 | (const char *)... | 0 |
+| test.c:14:20:14:23 | argv | test.c:27:45:27:52 | Address | 0 |
+| test.c:14:20:14:23 | argv | test.c:27:45:27:52 | Load | 0 |
+| test.c:14:20:14:23 | argv | test.c:27:45:27:52 | Unary | 0 |
+| test.c:14:20:14:23 | argv | test.c:27:45:27:52 | userName | 0 |
+| test.c:14:20:14:23 | argv | test.c:27:45:27:52 | userName indirection | 0 |
+| test.c:36:17:36:22 | call to getenv | test.c:36:17:36:28 | (char *)... | 0 |
+| test.c:36:17:36:22 | call to getenv | test.c:36:17:36:28 | Store | 0 |
+| test.c:36:17:36:22 | call to getenv | test.c:36:17:36:28 | StoreValue | 0 |
+| test.c:36:17:36:22 | call to getenv | test.c:36:17:36:28 | Unary | 0 |
+| test.c:36:17:36:22 | call to getenv | test.c:39:3:39:9 | envCC | 0 |
+| test.c:36:17:36:22 | call to getenv | test.c:39:11:39:17 | ChiPartial | 0 |
+| test.c:36:17:36:22 | call to getenv | test.c:39:11:39:17 | sprintf output argument | 0 |
+| test.c:36:17:36:22 | call to getenv | test.c:39:20:39:24 | (const char *)... | 0 |
+| test.c:36:17:36:22 | call to getenv | test.c:39:20:39:24 | Address | 0 |
+| test.c:36:17:36:22 | call to getenv | test.c:39:20:39:24 | Load | 0 |
+| test.c:36:17:36:22 | call to getenv | test.c:39:20:39:24 | Unary | 0 |
+| test.c:36:17:36:22 | call to getenv | test.c:39:20:39:24 | envCC | 0 |
+| test.c:36:17:36:22 | call to getenv | test.c:39:20:39:24 | envCC indirection | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:45:21:45:36 | (char *)... | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:45:21:45:36 | Store | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:45:21:45:36 | StoreValue | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:45:21:45:36 | Unary | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:48:3:48:9 | envCflags | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:48:11:48:17 | Chi | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:48:11:48:17 | ChiPartial | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:48:11:48:17 | sprintf output argument | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:48:35:48:43 | Address | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:48:35:48:43 | Address | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:48:35:48:43 | Load | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:48:35:48:43 | envCflags | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:48:35:48:43 | envCflags indirection | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:49:3:49:8 | command | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:49:10:49:16 | (const char *)... | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:49:10:49:16 | Address | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:49:10:49:16 | command indirection | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:60:9:60:16 | Chi | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:60:9:60:16 | ChiPartial | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:62:3:62:9 | call to strncat | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:62:3:62:9 | filename | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:62:11:62:17 | Chi | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:62:11:62:17 | ChiPartial | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:62:11:62:17 | strncat output argument | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:62:20:62:27 | (const char *)... | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:62:20:62:27 | Address | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:62:20:62:27 | filename indirection | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:63:3:63:8 | command | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:63:10:63:16 | (const char *)... | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:63:10:63:16 | Address | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:63:10:63:16 | command indirection | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:69:9:69:15 | Chi | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:69:9:69:15 | ChiPartial | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:71:3:71:9 | call to strncat | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:71:3:71:9 | command | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:71:11:71:17 | Address | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:71:11:71:17 | Address | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:71:11:71:17 | Chi | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:71:11:71:17 | ChiPartial | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:71:11:71:17 | ChiTotal | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:71:11:71:17 | array to pointer conversion | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:71:11:71:17 | command indirection | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:71:11:71:17 | strncat output argument | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:72:3:72:8 | command | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:72:10:72:16 | (const char *)... | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:72:10:72:16 | Address | 0 |
+| test.c:69:9:69:15 | fread output argument | test.c:72:10:72:16 | command indirection | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:78:9:78:16 | Chi | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:78:9:78:16 | ChiPartial | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:80:3:80:9 | call to strncat | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:80:3:80:9 | filename | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:80:11:80:17 | Chi | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:80:11:80:17 | ChiPartial | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:80:11:80:17 | strncat output argument | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:80:20:80:27 | (const char *)... | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:80:20:80:27 | Address | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:80:20:80:27 | filename indirection | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:81:3:81:8 | command | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:81:10:81:16 | (const char *)... | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:81:10:81:16 | Address | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:81:10:81:16 | command indirection | 0 |
+pathExploreRev
+| test.c:13:27:13:30 | *argv | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:13:27:13:30 | *argv [array content] | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:13:27:13:30 | Address | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:13:27:13:30 | Address | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:13:27:13:30 | Load | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:13:27:13:30 | Load | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:13:27:13:30 | VariableAddress | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:13:27:13:30 | argv | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:9:14:16 | VariableAddress | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:20:14:23 | Address | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:20:14:23 | Load | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:20:14:23 | VariableAddress | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:20:14:23 | argv | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:20:14:26 | Address | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:20:14:26 | Address | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:20:14:26 | Left | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:20:14:26 | Load | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:20:14:26 | PointerAdd | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:20:14:26 | Right | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:20:14:26 | Store | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:20:14:26 | StoreValue | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:20:14:26 | access to array | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:14:25:14:25 | 2 | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:20:45:20:52 | Address | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:20:45:20:52 | Load | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:20:45:20:52 | VariableAddress | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:20:45:20:52 | userName | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:20:45:20:52 | userName indirection | test.c:20:45:20:52 | userName indirection | 0 |
+| test.c:26:10:26:23 | Uninitialized | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:10:26:23 | VariableAddress | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | Address | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | Chi | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | ChiPartial | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | ChiTotal | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | Constant | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | Constant | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | Constant | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | Left | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | Left | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | PointerAdd | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | PointerAdd | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | Right | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | Right | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | Store | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:32:26:35 | StoreValue | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:34:26:34 | (char)... | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:34:26:34 | Address | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:34:26:34 | Chi | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:34:26:34 | ChiPartial | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:34:26:34 | ChiTotal | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:34:26:34 | Store | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:26:34:26:34 | StoreValue | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:27:23:27:36 | Chi | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:27:23:27:36 | ChiPartial | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:27:23:27:36 | ChiTotal | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:27:23:27:36 | encodeShellString output argument | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:29:41:29:54 | Unary | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:29:41:29:54 | array to pointer conversion | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:29:41:29:54 | userNameQuoted | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:29:41:29:54 | userNameQuoted indirection | test.c:29:41:29:54 | userNameQuoted indirection | 0 |
+| test.c:45:9:45:17 | VariableAddress | test.c:48:35:48:43 | envCflags indirection | 0 |
+| test.c:45:21:45:26 | call to getenv | test.c:48:35:48:43 | envCflags indirection | 0 |
+| test.c:45:21:45:36 | (char *)... | test.c:48:35:48:43 | envCflags indirection | 0 |
+| test.c:45:21:45:36 | Address | test.c:48:35:48:43 | envCflags indirection | 0 |
+| test.c:45:21:45:36 | Store | test.c:48:35:48:43 | envCflags indirection | 0 |
+| test.c:45:21:45:36 | StoreValue | test.c:48:35:48:43 | envCflags indirection | 0 |
+| test.c:45:21:45:36 | Unary | test.c:48:35:48:43 | envCflags indirection | 0 |
+| test.c:48:35:48:43 | Address | test.c:48:35:48:43 | envCflags indirection | 0 |
+| test.c:48:35:48:43 | Load | test.c:48:35:48:43 | envCflags indirection | 0 |
+| test.c:48:35:48:43 | VariableAddress | test.c:48:35:48:43 | envCflags indirection | 0 |
+| test.c:48:35:48:43 | envCflags | test.c:48:35:48:43 | envCflags indirection | 0 |
+| test.c:48:35:48:43 | envCflags indirection | test.c:48:35:48:43 | envCflags indirection | 0 |
+| test.c:59:31:59:38 | Uninitialized | test.c:62:20:62:27 | filename indirection | 0 |
+| test.c:60:9:60:16 | Chi | test.c:62:20:62:27 | filename indirection | 0 |
+| test.c:60:9:60:16 | ChiPartial | test.c:62:20:62:27 | filename indirection | 0 |
+| test.c:60:9:60:16 | ChiTotal | test.c:62:20:62:27 | filename indirection | 0 |
+| test.c:60:9:60:16 | fread output argument | test.c:62:20:62:27 | filename indirection | 0 |
+| test.c:62:20:62:27 | (const char *)... | test.c:62:20:62:27 | filename indirection | 0 |
+| test.c:62:20:62:27 | Unary | test.c:62:20:62:27 | filename indirection | 0 |
+| test.c:62:20:62:27 | Unary | test.c:62:20:62:27 | filename indirection | 0 |
+| test.c:62:20:62:27 | array to pointer conversion | test.c:62:20:62:27 | filename indirection | 0 |
+| test.c:62:20:62:27 | filename | test.c:62:20:62:27 | filename indirection | 0 |
+| test.c:62:20:62:27 | filename indirection | test.c:62:20:62:27 | filename indirection | 0 |
+| test.c:66:6:66:10 | InitializeNonLocal | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:68:23:68:30 | VariableAddress | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:68:40:68:50 |  test.txt | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:68:40:68:50 | Address | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:68:40:68:50 | Address | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:68:40:68:50 | Load | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:68:40:68:50 | Load | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:68:40:68:50 | Store | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:68:40:68:50 | StoreValue | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:71:20:71:27 | (const char *)... | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:71:20:71:27 | Unary | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:71:20:71:27 | Unary | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:71:20:71:27 | array to pointer conversion | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:71:20:71:27 | filename | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:71:20:71:27 | filename indirection | test.c:71:20:71:27 | filename indirection | 0 |
+| test.c:77:31:77:38 | Uninitialized | test.c:80:20:80:27 | filename indirection | 0 |
+| test.c:78:9:78:16 | Chi | test.c:80:20:80:27 | filename indirection | 0 |
+| test.c:78:9:78:16 | ChiPartial | test.c:80:20:80:27 | filename indirection | 0 |
+| test.c:78:9:78:16 | ChiTotal | test.c:80:20:80:27 | filename indirection | 0 |
+| test.c:78:9:78:16 | fread output argument | test.c:80:20:80:27 | filename indirection | 0 |
+| test.c:80:20:80:27 | (const char *)... | test.c:80:20:80:27 | filename indirection | 0 |
+| test.c:80:20:80:27 | Unary | test.c:80:20:80:27 | filename indirection | 0 |
+| test.c:80:20:80:27 | Unary | test.c:80:20:80:27 | filename indirection | 0 |
+| test.c:80:20:80:27 | array to pointer conversion | test.c:80:20:80:27 | filename indirection | 0 |
+| test.c:80:20:80:27 | filename | test.c:80:20:80:27 | filename indirection | 0 |
+| test.c:80:20:80:27 | filename indirection | test.c:80:20:80:27 | filename indirection | 0 |
+#select
+| test.c:21:12:21:19 | command1 | test.c:14:20:14:23 | argv | test.c:21:12:21:19 | command1 indirection | This argument to an OS command is derived from $@, dangerously concatenated into $@, and then passed to system(string) | test.c:14:20:14:23 | argv | user input (a command-line argument) | test.c:20:13:20:20 | sprintf output argument | sprintf output argument |
+| test.c:49:10:49:16 | command | test.c:45:21:45:26 | call to getenv | test.c:49:10:49:16 | command indirection | This argument to an OS command is derived from $@, dangerously concatenated into $@, and then passed to system(string) | test.c:45:21:45:26 | call to getenv | user input (an environment variable) | test.c:48:11:48:17 | sprintf output argument | sprintf output argument |
+| test.c:63:10:63:16 | command | test.c:60:9:60:16 | fread output argument | test.c:63:10:63:16 | command indirection | This argument to an OS command is derived from $@, dangerously concatenated into $@, and then passed to system(string) | test.c:60:9:60:16 | fread output argument | user input (String read by fread) | test.c:62:11:62:17 | strncat output argument | strncat output argument |
+| test.c:81:10:81:16 | command | test.c:78:9:78:16 | fread output argument | test.c:81:10:81:16 | command indirection | This argument to an OS command is derived from $@, dangerously concatenated into $@, and then passed to system(string) | test.c:78:9:78:16 | fread output argument | user input (String read by fread) | test.c:80:11:80:17 | strncat output argument | strncat output argument |
+nodes
+| test.c:14:20:14:23 | argv | semmle.label | argv |
+| test.c:14:20:14:23 | argv | semmle.label | argv |
+| test.c:14:20:14:23 | argv | semmle.label | argv |
+| test.c:14:20:14:26 | Store | semmle.label | Store |
+| test.c:14:20:14:26 | access to array | semmle.label | access to array |
+| test.c:20:13:20:20 | sprintf output argument | semmle.label | sprintf output argument |
+| test.c:20:45:20:52 | userName | semmle.label | userName |
+| test.c:20:45:20:52 | userName indirection | semmle.label | userName indirection |
+| test.c:20:45:20:52 | userName indirection | semmle.label | userName indirection |
+| test.c:21:12:21:19 | (const char *)... | semmle.label | (const char *)... |
+| test.c:21:12:21:19 | command1 indirection | semmle.label | command1 indirection |
+| test.c:21:12:21:19 | command1 indirection | semmle.label | command1 indirection |
+| test.c:27:45:27:52 | (const char *)... | semmle.label | (const char *)... |
+| test.c:27:45:27:52 | userName | semmle.label | userName |
+| test.c:27:45:27:52 | userName indirection | semmle.label | userName indirection |
+| test.c:29:13:29:20 | sprintf output argument | semmle.label | sprintf output argument |
+| test.c:30:12:30:19 | command2 indirection | semmle.label | command2 indirection |
+| test.c:36:17:36:22 | call to getenv | semmle.label | call to getenv |
+| test.c:36:17:36:28 | (char *)... | semmle.label | (char *)... |
+| test.c:36:17:36:28 | (char *)... | semmle.label | (char *)... |
+| test.c:36:17:36:28 | Store | semmle.label | Store |
+| test.c:39:20:39:24 | (const char *)... | semmle.label | (const char *)... |
+| test.c:39:20:39:24 | envCC | semmle.label | envCC |
+| test.c:39:20:39:24 | envCC indirection | semmle.label | envCC indirection |
+| test.c:45:21:45:26 | call to getenv | semmle.label | call to getenv |
+| test.c:45:21:45:26 | call to getenv | semmle.label | call to getenv |
+| test.c:45:21:45:36 | (char *)... | semmle.label | (char *)... |
+| test.c:45:21:45:36 | (char *)... | semmle.label | (char *)... |
+| test.c:45:21:45:36 | Store | semmle.label | Store |
+| test.c:48:11:48:17 | sprintf output argument | semmle.label | sprintf output argument |
+| test.c:48:35:48:43 | envCflags | semmle.label | envCflags |
+| test.c:48:35:48:43 | envCflags indirection | semmle.label | envCflags indirection |
+| test.c:48:35:48:43 | envCflags indirection | semmle.label | envCflags indirection |
+| test.c:49:10:49:16 | (const char *)... | semmle.label | (const char *)... |
+| test.c:49:10:49:16 | command indirection | semmle.label | command indirection |
+| test.c:49:10:49:16 | command indirection | semmle.label | command indirection |
+| test.c:60:9:60:16 | (void *)... | semmle.label | (void *)... |
+| test.c:60:9:60:16 | (void *)... | semmle.label | (void *)... |
+| test.c:60:9:60:16 | array to pointer conversion | semmle.label | array to pointer conversion |
+| test.c:60:9:60:16 | filename | semmle.label | filename |
+| test.c:60:9:60:16 | filename indirection | semmle.label | filename indirection |
+| test.c:60:9:60:16 | fread output argument | semmle.label | fread output argument |
+| test.c:60:9:60:16 | fread output argument | semmle.label | fread output argument |
+| test.c:62:11:62:17 | strncat output argument | semmle.label | strncat output argument |
+| test.c:62:20:62:27 | (const char *)... | semmle.label | (const char *)... |
+| test.c:62:20:62:27 | filename indirection | semmle.label | filename indirection |
+| test.c:62:20:62:27 | filename indirection | semmle.label | filename indirection |
+| test.c:63:10:63:16 | (const char *)... | semmle.label | (const char *)... |
+| test.c:63:10:63:16 | command indirection | semmle.label | command indirection |
+| test.c:63:10:63:16 | command indirection | semmle.label | command indirection |
+| test.c:69:9:69:15 | (void *)... | semmle.label | (void *)... |
+| test.c:69:9:69:15 | (void *)... | semmle.label | (void *)... |
+| test.c:69:9:69:15 | array to pointer conversion | semmle.label | array to pointer conversion |
+| test.c:69:9:69:15 | command | semmle.label | command |
+| test.c:69:9:69:15 | command indirection | semmle.label | command indirection |
+| test.c:69:9:69:15 | fread output argument | semmle.label | fread output argument |
+| test.c:71:11:71:17 | array to pointer conversion | semmle.label | array to pointer conversion |
+| test.c:71:11:71:17 | command indirection | semmle.label | command indirection |
+| test.c:71:11:71:17 | strncat output argument | semmle.label | strncat output argument |
+| test.c:72:10:72:16 | (const char *)... | semmle.label | (const char *)... |
+| test.c:72:10:72:16 | command indirection | semmle.label | command indirection |
+| test.c:72:10:72:16 | command indirection | semmle.label | command indirection |
+| test.c:78:9:78:16 | (void *)... | semmle.label | (void *)... |
+| test.c:78:9:78:16 | (void *)... | semmle.label | (void *)... |
+| test.c:78:9:78:16 | array to pointer conversion | semmle.label | array to pointer conversion |
+| test.c:78:9:78:16 | filename | semmle.label | filename |
+| test.c:78:9:78:16 | filename indirection | semmle.label | filename indirection |
+| test.c:78:9:78:16 | fread output argument | semmle.label | fread output argument |
+| test.c:78:9:78:16 | fread output argument | semmle.label | fread output argument |
+| test.c:80:11:80:17 | strncat output argument | semmle.label | strncat output argument |
+| test.c:80:20:80:27 | (const char *)... | semmle.label | (const char *)... |
+| test.c:80:20:80:27 | filename indirection | semmle.label | filename indirection |
+| test.c:80:20:80:27 | filename indirection | semmle.label | filename indirection |
+| test.c:81:10:81:16 | (const char *)... | semmle.label | (const char *)... |
+| test.c:81:10:81:16 | command indirection | semmle.label | command indirection |
+| test.c:81:10:81:16 | command indirection | semmle.label | command indirection |

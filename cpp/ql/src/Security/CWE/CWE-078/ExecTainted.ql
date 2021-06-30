@@ -15,49 +15,80 @@
 import cpp
 import semmle.code.cpp.security.CommandExecution
 import semmle.code.cpp.security.Security
-import DataFlow::PathGraph
 import semmle.code.cpp.ir.dataflow.TaintTracking
+import semmle.code.cpp.ir.dataflow.TaintTracking2
 import semmle.code.cpp.ir.IR
 import semmle.code.cpp.security.FlowSources
+import semmle.code.cpp.models.implementations.Strcat
 
 Expr sinkAsArgumentIndirection(DataFlow::Node sink) {
-  result = sink.asOperand()
-      .(SideEffectOperand)
-      .getAddressOperand()
-      .getAnyDef()
-      .getUnconvertedResultExpression()
+  result =
+    sink.asOperand()
+        .(SideEffectOperand)
+        .getAddressOperand()
+        .getAnyDef()
+        .getUnconvertedResultExpression()
+}
+
+predicate interestingConcatenation(DataFlow::Node fst, DataFlow::Node snd) {
+  exists(FormattingFunctionCall call, int index, FormatLiteral literal |
+    sinkAsArgumentIndirection(fst) = call.getConversionArgument(index) and
+    snd.asDefiningArgument() = call.getOutputArgument(false) and
+    literal = call.getFormat() and
+    not literal.getConvSpecOffset(index) = 0 and
+    (
+      literal.getConversionType(index) instanceof CharPointerType
+      or
+      literal.getConversionType(index).(PointerType).getBaseType() instanceof Wchar_t
+    )
+  )
+  or
+  // strcat and friends
+  exists(StrcatFunction strcatFunc, CallInstruction call, ReadSideEffectInstruction rse |
+    call.getStaticCallTarget() = strcatFunc and
+    rse.getArgumentDef() = call.getArgument(strcatFunc.getParamSrc()) and
+    fst.asOperand() = rse.getSideEffectOperand() and
+    snd.asInstruction().(WriteSideEffectInstruction).getDestinationAddress() =
+        call.getArgument(strcatFunc.getParamDest())
+  )
+  or
+  exists(CallInstruction call, Operator op, ReadSideEffectInstruction rse |
+    call.getStaticCallTarget() = op and
+    op.hasQualifiedName("std", "operator+") and
+    op.getType().(UserType).hasQualifiedName("std", "basic_string") and
+    call.getArgument(1) = rse.getArgumentOperand().getAnyDef() and // left operand
+    fst.asOperand() = rse.getSideEffectOperand() and
+    call =
+      snd.asInstruction()
+  )
+}
+
+// TODO: maybe we can drop this?
+class TaintToConcatenationConfiguration extends TaintTracking::Configuration {
+  TaintToConcatenationConfiguration() { this = "TaintToConcatenationConfiguration" }
+
+  override predicate isSource(DataFlow::Node source) {
+    source instanceof FlowSource
+  }
+
+  override predicate isSink(DataFlow::Node sink) {
+    interestingConcatenation(sink, _)
+  }
+
+  override int explorationLimit() {
+    result = 10
+  }
 }
 
 class ExecTaintConfiguration extends TaintTracking::Configuration {
   ExecTaintConfiguration() { this = "ExecTaintConfiguration" }
 
-  override predicate isSource(DataFlow::Node source) { 
-    source instanceof FlowSource
+  override predicate isSource(DataFlow::Node source) {
+    interestingConcatenation(_, source)
   }
 
   override predicate isSink(DataFlow::Node sink) {
     shellCommand(sinkAsArgumentIndirection(sink), _)
-  }
-
-  override predicate isSanitizer(DataFlow::Node node) {
-    exists(FormattingFunctionCall call, int index, FormatLiteral literal |
-      node.asExpr() = call.getConversionArgument(index) and
-      literal = call.getFormat() and
-      (
-        // This is a numeric conversion, so it can't contain the special characters that allow injections
-        not (
-          literal.getConversionType(index) instanceof CharPointerType
-          or
-          literal.getConversionType(index).(PointerType).getBaseType() instanceof Wchar_t
-        )
-        or
-        // This is at the beginning of the string, so the command injection is a deliberate
-        // feature (like $CC in Makefiles)
-        literal.getConvSpecOffset(index) = 0
-      )
-    )
-    or
-    exists(FormattingFunctionCall call | node.asExpr() = call.getMinFieldWidthArgument(_))
   }
 
   override predicate isSanitizerOut(DataFlow::Node node) {
@@ -65,13 +96,32 @@ class ExecTaintConfiguration extends TaintTracking::Configuration {
   }
 }
 
+query predicate nodes = DataFlow::PathGraph::nodes/3;
+
+query predicate edges(DataFlow::PathNode a, DataFlow::PathNode b) {
+  DataFlow::PathGraph::edges(a, b) or
+  interestingConcatenation(a.getNode(), b.getNode()) and
+  a.getConfiguration() instanceof TaintToConcatenationConfiguration and
+  b.getConfiguration() instanceof ExecTaintConfiguration
+}
+
+query predicate pathExplore(DataFlow::PartialPathNode source, DataFlow::PartialPathNode node, int dist) {
+  any(TaintToConcatenationConfiguration cfg).hasPartialFlow(source, node, dist)
+}
+
+query predicate pathExploreRev(DataFlow::PartialPathNode node, DataFlow::PartialPathNode sink, int dist) {
+  any(TaintToConcatenationConfiguration cfg).hasPartialFlowRev(node, sink, dist)
+}
+
 from
- DataFlow::PathNode sourceNode, DataFlow::PathNode sinkNode,
-  string taintCause, string callChain, ExecTaintConfiguration conf
+  DataFlow::PathNode sourceNode, DataFlow::PathNode concatSink, DataFlow::PathNode concatSource, DataFlow::PathNode sinkNode, string taintCause, string callChain,
+  TaintToConcatenationConfiguration conf1, ExecTaintConfiguration conf2
 where
-  shellCommand(sinkAsArgumentIndirection(sinkNode.getNode()), callChain) and
-  conf.hasFlowPath(sourceNode, sinkNode) and
-  taintCause = sourceNode.getNode().(FlowSource).getSourceType()
+  taintCause = sourceNode.getNode().(FlowSource).getSourceType() and
+  conf1.hasFlowPath(sourceNode, concatSink) and // TODO: can we link these better?
+  interestingConcatenation(concatSink.getNode(), concatSource.getNode()) and
+  conf2.hasFlowPath(concatSource, sinkNode) and
+  shellCommand(sinkAsArgumentIndirection(sinkNode.getNode()), callChain)
 select sinkAsArgumentIndirection(sinkNode.getNode()), sourceNode, sinkNode,
-  "This argument to an OS command is derived from $@ and then passed to " + callChain, sourceNode,
-  "user input (" + taintCause + ")"
+  "This argument to an OS command is derived from $@, dangerously concatenated into $@, and then passed to " + callChain, sourceNode,
+  "user input (" + taintCause + ")", concatSource, concatSource.toString()
