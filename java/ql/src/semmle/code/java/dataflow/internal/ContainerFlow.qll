@@ -132,6 +132,8 @@ private class ContainerFlowSummaries extends SummaryModelCsv {
         "java.util;Map;true;merge;(Object,Object,BiFunction);;Argument[1];MapValue of Argument[-1];value",
         "java.util;Map;true;putAll;(Map);;MapKey of Argument[0];MapKey of Argument[-1];value",
         "java.util;Map;true;putAll;(Map);;MapValue of Argument[0];MapValue of Argument[-1];value",
+        "java.util;HashMap;false;HashMap;;;MapKey of Argument[0];MapKey of Argument[-1];value",
+        "java.util;HashMap;false;HashMap;;;MapValue of Argument[0];MapValue of Argument[-1];value",
         "java.util;Collection;true;parallelStream;();;Element of Argument[-1];Element of ReturnValue;value",
         "java.util;Collection;true;stream;();;Element of Argument[-1];Element of ReturnValue;value",
         "java.util;Collection;true;toArray;;;Element of Argument[-1];ArrayElement of ReturnValue;value",

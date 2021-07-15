@@ -233,6 +233,16 @@ public class B {
       Object in = storeMapValue(source()); out.putAll((Map)in); sink(readMapValue(out)); // $ hasValueFlow
     }
     {
+      // "java.util;HashMap;false;HashMap;;;MapKey of Argument[0];MapKey of Argument[-1];value",
+      HashMap out = null;
+      Map in = storeMapKey(source()); out = new HashMap(in); sink(readMapKey(out)); // $ hasValueFlow
+    }
+    {
+      // "java.util;HashMap;false;HashMap;;;MapValue of Argument[0];MapValue of Argument[-1];value",
+      HashMap out = null;
+      Map in = storeMapValue(source()); out = new HashMap(in); sink(readMapValue(out)); // $ hasValueFlow
+    }
+    {
       // "java.util;Collection;true;parallelStream;();;Element of Argument[-1];Element of ReturnValue;value",
       Stream out = null;
       Collection in = storeElementList(source()); out = in.parallelStream(); sink(readElement(out)); // $ hasValueFlow
