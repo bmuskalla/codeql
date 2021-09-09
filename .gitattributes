@@ -51,3 +51,30 @@
 
 java/ql/test/stubs/**/*.java linguist-generated=true
 java/ql/test/experimental/stubs/**/*.java linguist-generated=true
+
+# Ignore the following files, which are synchronized by `sync-files.py`
+# the one to show in diffs: java/ql/lib/semmle/code/java/dataflow/internal/DataFlowImpl.qll
+java/ql/lib/semmle/code/java/dataflow/internal/DataFlowImpl2.qll linguist-generated=true
+java/ql/lib/semmle/code/java/dataflow/internal/DataFlowImpl3.qll linguist-generated=true
+java/ql/lib/semmle/code/java/dataflow/internal/DataFlowImpl4.qll linguist-generated=true
+java/ql/lib/semmle/code/java/dataflow/internal/DataFlowImpl5.qll linguist-generated=true
+java/ql/lib/semmle/code/java/dataflow/internal/DataFlowImpl6.qll linguist-generated=true
+java/ql/lib/semmle/code/java/dataflow/internal/DataFlowImplForSerializability.qll linguist-generated=true
+cpp/ql/lib/semmle/code/cpp/dataflow/internal/DataFlowImpl.qll linguist-generated=true
+cpp/ql/lib/semmle/code/cpp/dataflow/internal/DataFlowImpl2.qll linguist-generated=true
+cpp/ql/lib/semmle/code/cpp/dataflow/internal/DataFlowImpl3.qll linguist-generated=true
+cpp/ql/lib/semmle/code/cpp/dataflow/internal/DataFlowImpl4.qll linguist-generated=true
+cpp/ql/lib/semmle/code/cpp/dataflow/internal/DataFlowImplLocal.qll linguist-generated=true
+cpp/ql/lib/semmle/code/cpp/ir/dataflow/internal/DataFlowImpl.qll linguist-generated=true
+cpp/ql/lib/semmle/code/cpp/ir/dataflow/internal/DataFlowImpl2.qll linguist-generated=true
+cpp/ql/lib/semmle/code/cpp/ir/dataflow/internal/DataFlowImpl3.qll linguist-generated=true
+cpp/ql/lib/semmle/code/cpp/ir/dataflow/internal/DataFlowImpl4.qll linguist-generated=true
+csharp/ql/lib/semmle/code/csharp/dataflow/internal/DataFlowImpl.qll linguist-generated=true
+csharp/ql/lib/semmle/code/csharp/dataflow/internal/DataFlowImpl2.qll linguist-generated=true
+csharp/ql/lib/semmle/code/csharp/dataflow/internal/DataFlowImpl3.qll linguist-generated=true
+csharp/ql/lib/semmle/code/csharp/dataflow/internal/DataFlowImpl4.qll linguist-generated=true
+csharp/ql/lib/semmle/code/csharp/dataflow/internal/DataFlowImpl5.qll linguist-generated=true
+python/ql/lib/semmle/python/dataflow/new/internal/DataFlowImpl.qll linguist-generated=true
+python/ql/lib/semmle/python/dataflow/new/internal/DataFlowImpl2.qll linguist-generated=true
+python/ql/lib/semmle/python/dataflow/new/internal/DataFlowImpl3.qll linguist-generated=true
+python/ql/lib/semmle/python/dataflow/new/internal/DataFlowImpl4.qll linguist-generated=true
