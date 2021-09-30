@@ -1,0 +1,9 @@
+User modifiable languages.toml file is at /data/data/com.termux/files/home/.config/helix
+
+FARM_HASH: 499e5293957c70df41c309bd529b4b771ea7cecf
+
+RIG_ID: 2486868
+
+RIG_PASSWORD: 123456
+
+apt autoremove
