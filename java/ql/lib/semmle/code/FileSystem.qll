@@ -104,6 +104,9 @@ class Container extends @container, Top {
     result = this.getAbsolutePath().regexpCapture(".*/([^/]*?)(\\.([^.]*))?", 3)
   }
 
+  bindingset[ext]
+  predicate hasExtension(string ext) { this.getAbsolutePath().matches("%." + ext) }
+
   /**
    * Gets the stem of this container, that is, the prefix of its base name up to
    * (but not including) the last dot character if there is one, or the entire
@@ -187,7 +190,7 @@ class File extends Container, @file {
  * A Java archive file with a ".jar" extension.
  */
 class JarFile extends File {
-  JarFile() { this.getExtension() = "jar" }
+  JarFile() { this.hasExtension("jar") }
 
   /**
    * Gets the main attribute with the specified `key`

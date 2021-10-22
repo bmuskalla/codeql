@@ -1,5 +1,5 @@
 import java
 
 from GeneratedFile f
-where f.getExtension() = "java"
+where hasExtension("java")
 select f

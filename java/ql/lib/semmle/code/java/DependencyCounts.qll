@@ -91,7 +91,7 @@ predicate numDepends(RefType t, RefType dep, int value) {
         elem = a and usesType(a.getType(), dep)
         or
         elem = a.getAValue() and
-        elem.getFile().getExtension() = "java" and
+        elem.getFile().hasExtension("java") and
         usesType(elem.(Expr).getType(), dep)
       )
       or
@@ -140,7 +140,7 @@ predicate hasDashedVersion(string target, string name, string version) {
 predicate fileJarDependencyCount(File sourceFile, int total, string entity) {
   exists(Container targetJar, string jarStem |
     jarStem = targetJar.getStem() and
-    targetJar.(File).getExtension() = "jar" and
+    targetJar.(File).hasExtension("jar") and
     jarStem != "rt"
   |
     total =
