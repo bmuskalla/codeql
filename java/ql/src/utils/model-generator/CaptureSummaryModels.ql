@@ -25,7 +25,7 @@ string captureFlow(TargetAPI api) {
  * Example of a fluent API:
  * ```
  * public class Foo {
- *   public Foo someAPI() {
+ *   public Foo someAPI() {asdasdasd
  *    // some side-effect
  *    return this;
  *  }
