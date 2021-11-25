@@ -70,4 +70,4 @@ jobs:
           SHORTNAME="commonsCodec"
           MODE="baseline"
           ls -1 tmp-models/
-          diff --color=always -w -u tmp-models/${SHORTNAME}_${MODE}.qll tmp-models/${SHORTNAME}_OTHER.qll
+          (diff --color=always -w -u tmp-models/${SHORTNAME}_${MODE}.qll tmp-models/${SHORTNAME}_OTHER.qll) || true
