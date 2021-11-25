@@ -49,17 +49,17 @@ jobs:
         run: |
           SLUG="apache/commons-codec"
           SHORTNAME="commonsCodec"
-          MODE="baseline"  
+          MODE="Baseline"
           projectId=`curl -s https://lgtm.com/api/v1.0/projects/g/$SLUG | jq .id`
           curl -L "https://lgtm.com/api/v1.0/snapshots/$projectId/java" -o $SHORTNAME.zip
           unzip -q -d $SHORTNAME-db $SHORTNAME.zip
           DATABASE=`pwd`/$SHORTNAME-db/`ls -1 $SHORTNAME-db`
           cd codeql-$MODE
-          python java/ql/src/utils/model-generator/GenerateFlowModel.py $DATABASE ../tmp-models/$SHORTNAME_$MODE.qll
+          python java/ql/src/utils/model-generator/GenerateFlowModel.py $DATABASE ../tmp-models/${SHORTNAME}_${MODE}.qll
 
-          cp tmp-models/$SHORTNAME_$MODE.qll tmp-models/$SHORTNAME_OTHER.qll
-          echo "foo" >> tmp-models/$SHORTNAME_OTHER.qll
-          diff --color always -w -u tmp-models/$SHORTNAME_$MODE.qll tmp-models/$SHORTNAME_OTHER.qll
+          cp tmp-models/${SHORTNAME}_${MODE}.qll tmp-models/${SHORTNAME}_OTHER.qll
+          echo "foo" >> tmp-models/${SHORTNAME}_OTHER.qll
+          diff --color always -w -u tmp-models/${SHORTNAME}_${MODE}.qll tmp-models/${SHORTNAME}_OTHER.qll
       - uses: actions/upload-artifact@v2
         with:
           name: models
