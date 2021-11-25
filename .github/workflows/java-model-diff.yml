@@ -26,40 +26,37 @@ jobs:
         with:
           path: codeql-current
           ref: ${{ github.ref }}
-      - name: Show setup
-        run: |
-          echo "Baseline: ${{ github.base_ref }}"
-          echo "Current: ${{ github.ref }}"
-#       - name: Set up Python 3.8
-#         uses: actions/setup-python@v2
-#         with:
-#           python-version: 3.8
-      # - name: Download CodeQL CLI
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     gh release download --repo "github/codeql-cli-binaries" --pattern "codeql-linux64.zip"
-      # - name: Unzip CodeQL CLI
-      #   run: unzip -q -d codeql-cli codeql-linux64.zip
       - uses: ./codeql-baseline/.github/actions/fetch-codeql
       - name: Setup MaD comparison dbs
         run: |
-          mkdir tmp-models
+          set -x
+          mkdir lib-dbs
+          downloadDatabase() {
+            SLUG=$1
+            SHORTNAME=$2
+            projectId=`curl -s https://lgtm.com/api/v1.0/projects/g/$SLUG | jq .id`
+            curl -L "https://lgtm.com/api/v1.0/snapshots/$projectId/java" -o $SHORTNAME.zip
+            unzip -q -d $SHORTNAME-db $SHORTNAME.zip
+            mkdir lib-dbs/$SHORTNAME-db/
+            mv $SHORTNAME-db/`ls -1 $SHORTNAME-db`/* lib-dbs/$SHORTNAME-db/
+          }
+
+          downloadDatabase "apache/commons-codec" "commonsCodec"
       - name: Generate MaD (Baseline)
         run: |
           set -x
-          SLUG="apache/commons-codec"
-          SHORTNAME="commonsCodec"
+          mkdir tmp-models
+          MODELS=`pwd`/tmp-models
           MODE="baseline"
-          projectId=`curl -s https://lgtm.com/api/v1.0/projects/g/$SLUG | jq .id`
-          curl -L "https://lgtm.com/api/v1.0/snapshots/$projectId/java" -o $SHORTNAME.zip
-          unzip -q -d $SHORTNAME-db $SHORTNAME.zip
-          DATABASE=`pwd`/$SHORTNAME-db/`ls -1 $SHORTNAME-db`
+          DATABASES=`pwd`/lib-dbs
           cd codeql-$MODE
-          python java/ql/src/utils/model-generator/GenerateFlowModel.py $DATABASE ../tmp-models/${SHORTNAME}_${MODE}.qll
-          cd ..
-          cp tmp-models/${SHORTNAME}_${MODE}.qll tmp-models/${SHORTNAME}_OTHER.qll
-          echo "foo" >> tmp-models/${SHORTNAME}_OTHER.qll
+          for d in $DATABASES/*/ ; do
+            echo "$d"
+            python java/ql/src/utils/model-generator/GenerateFlowModel.py $DATABASES/$d $MODELS/${d}_${MODE}.qll
+            # remove 
+            cp ../tmp-models/${d}_${MODE}.qll ../tmp-models/${d}_OTHER.qll
+            echo "foo" >> ../tmp-models/${d}_OTHER.qll
+          done          
       - uses: actions/upload-artifact@v2
         with:
           name: models
