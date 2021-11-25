@@ -14,7 +14,9 @@ on:
 jobs:
   model-diff:
     runs-on: ubuntu-latest
-
+    environment:
+      name: prod
+      url: https://github.com
     steps:
       - name: Clone self (github/codeql) for baseline
         uses: actions/checkout@v2
@@ -60,7 +62,8 @@ jobs:
             DATABASE=$2
             cd codeql-$QL_VARIANT
             SHORTNAME=`basename $DATABASE`
-            python java/ql/src/utils/model-generator/GenerateFlowModel.py $DATABASE $MODELS/${SHORTNAME}_${QL_VARIANT}.qll
+            python java/ql/src/utils/model-generator/GenerateFlowModel.py $DATABASE $MODELS/${SHORTNAME}.qll
+            mv $MODELS/${SHORTNAME}.qll $MODELS/${SHORTNAME}_${QL_VARIANT}.qll
             echo "$QL_VARIANT" >> $MODELS/${SHORTNAME}_${QL_VARIANT}.qll
             cd ..
           }
