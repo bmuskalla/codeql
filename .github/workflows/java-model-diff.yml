@@ -1,6 +1,7 @@
 name: Diff generated Models as Data
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
@@ -26,26 +27,29 @@ jobs:
         run: |
           echo "Baseline: ${{ github.base_ref }}"
           echo "Current: ${{ github.ref }}"
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-      - name: Download CodeQL CLI
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release download --repo "github/codeql-cli-binaries" --pattern "codeql-linux64.zip"
-      - name: Unzip CodeQL CLI
-        run: unzip -d codeql-cli codeql-linux64.zip
-      - name: Build modeled package list
+#       - name: Set up Python 3.8
+#         uses: actions/setup-python@v2
+#         with:
+#           python-version: 3.8
+#       - name: Download CodeQL CLI
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         run: |
+#           gh release download --repo "github/codeql-cli-binaries" --pattern "codeql-linux64.zip"
+#       - name: Unzip CodeQL CLI
+#         run: unzip -d codeql-cli codeql-linux64.zip
+      - name: Setup MaD comparison
         run: |
           mkdir tmp-models
+      - name: Generate MaD (Baseline)
+        run: |
           SLUG="apache/commons-io"
           SHORTNAME="commons-io"
           projectId=`curl -s https://lgtm.com/api/v1.0/projects/g/$SLUG | jq .id`
           curl -L "https://lgtm.com/api/v1.0/snapshots/$projectId/java" -o $SHORTNAME.zip
-          PATH="$PATH:codeql-cli/codeql" python java/ql/src/utils/model-generator/GenerateFlowModel.py $SHORTNAME.zip tmp-models/$SHORTNAME.qll
+          python codeql-baseline/java/ql/src/utils/model-generator/GenerateFlowModel.py $SHORTNAME.zip tmp-models/$SHORTNAME.qll
           git add tmp-models/$SHORTNAME.qll
+      #  PATH="$PATH:codeql-cli/codeql" python java/ql/src/utils/model-generator/GenerateFlowModel.py $SHORTNAME.zip tmp-models/$SHORTNAME.qll
       - name: Show diff
         run: |
           git diff tmp-models/
