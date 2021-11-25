@@ -15,7 +15,7 @@ jobs:
   model-diff:
     runs-on: ubuntu-latest
     environment:
-      name: prod
+      name: models
       url: https://github.com
     steps:
       - name: Clone self (github/codeql) for baseline
@@ -74,16 +74,18 @@ jobs:
             analyzeDatabaseWithCheckout "baseline" $d
             analyzeDatabaseWithCheckout "head" $d
           done          
-      - uses: actions/upload-artifact@v2
-        with:
-          name: models
-          path: tmp-models/
       - name: Diff MaD
         run: |
           set -x
+          npm install -g diff2html-cli
           MODELS=`pwd`/tmp-models
           ls -1 tmp-models/
           for m in $MODELS/*_baseline.qll ; do
             t="${m/baseline/"head"}"
-            (diff --color=always -w -u $m $t) || true
+            name="${m/baseline/""}"
+            (diff --color=always -w -u $m $t | diff2html -i stdin -F $MODELS/$name.html) || true
           done
+      - uses: actions/upload-artifact@v2
+        with:
+          name: models
+          path: tmp-models/
