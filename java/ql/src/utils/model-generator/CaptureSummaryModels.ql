@@ -1,6 +1,6 @@
 /**
  * @name Capture summary models.
- * @description Finds applicable summary models to be used by other queries.
+ * @description Finds applicable summary models to be used by other queries.asdasdasd
  * @id java/utils/model-generator/summary-models
  */
 
