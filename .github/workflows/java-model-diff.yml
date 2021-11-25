@@ -51,7 +51,7 @@ jobs:
           DATABASES=`pwd`/lib-dbs
           cd codeql-$MODE
           for d in $DATABASES/*/ ; do
-            echo "$d"
+            ls -1 "$DATABASES/$d"
             python java/ql/src/utils/model-generator/GenerateFlowModel.py $DATABASES/$d $MODELS/${d}_${MODE}.qll
             # remove 
             cp ../tmp-models/${d}_${MODE}.qll ../tmp-models/${d}_OTHER.qll
