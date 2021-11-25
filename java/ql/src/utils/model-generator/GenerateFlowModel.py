@@ -71,7 +71,7 @@ shortname = filename[:-4]
 frameworkTarget = os.path.join(os.getcwd(), targetQll)
 
 workDir = tempfile.mkdtemp()
-os.makedirs(generatedFrameworks, exist_ok=True)
+# os.makedirs(generatedFrameworks, exist_ok=True)
 
 
 def runQuery(infoMessage, query):
