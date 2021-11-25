@@ -60,7 +60,6 @@ jobs:
           cd ..
           cp tmp-models/${SHORTNAME}_${MODE}.qll tmp-models/${SHORTNAME}_OTHER.qll
           echo "foo" >> tmp-models/${SHORTNAME}_OTHER.qll
-          diff --color always -w -u tmp-models/${SHORTNAME}_${MODE}.qll tmp-models/${SHORTNAME}_OTHER.qll
       - uses: actions/upload-artifact@v2
         with:
           name: models
@@ -71,4 +70,4 @@ jobs:
           SHORTNAME="commonsCodec"
           MODE="baseline"
           ls -1 tmp-models/
-          diff --color always -w -u tmp-models/${SHORTNAME}_${MODE}.qll tmp-models/${SHORTNAME}_OTHER.qll
+          diff --color=always -w -u tmp-models/${SHORTNAME}_${MODE}.qll tmp-models/${SHORTNAME}_OTHER.qll
