@@ -14,9 +14,9 @@ on:
 jobs:
   model-diff:
     runs-on: ubuntu-latest
-    environment:
-      name: models
-      url: https://github.com
+    # environment:
+    #   name: models
+    #   url: https://github.com
     steps:
       - name: Clone self (github/codeql) for baseline
         uses: actions/checkout@v2
@@ -48,7 +48,7 @@ jobs:
           # downloadDatabase "apache/commons-beanutils"
           # downloadDatabase "apache/commons-lang"
           # downloadDatabase "apache/commons-validator"
-          # downloadDatabase "apache/commons-csv"
+          downloadDatabase "apache/commons-csv"
       - name: Generate MaD (Baseline)
         run: |
           set -x
