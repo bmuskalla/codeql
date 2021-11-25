@@ -37,7 +37,7 @@ jobs:
             projectId=`curl -s https://lgtm.com/api/v1.0/projects/g/$SLUG | jq .id`
             curl -L "https://lgtm.com/api/v1.0/snapshots/$projectId/java" -o $SHORTNAME.zip
             unzip -q -d $SHORTNAME-db $SHORTNAME.zip
-            mkdir lib-dbs/$SHORTNAME-db/
+            mkdir lib-dbs/$SHORTNAME/
             mv $SHORTNAME-db/`ls -1 $SHORTNAME-db`/* lib-dbs/$SHORTNAME/
           }
 
