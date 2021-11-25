@@ -33,15 +33,15 @@ jobs:
           mkdir lib-dbs
           downloadDatabase() {
             SLUG=$1
-            SHORTNAME=$2
+            SHORTNAME=${SLUG//[^a-zA-Z0-9_]/}
             projectId=`curl -s https://lgtm.com/api/v1.0/projects/g/$SLUG | jq .id`
             curl -L "https://lgtm.com/api/v1.0/snapshots/$projectId/java" -o $SHORTNAME.zip
             unzip -q -d $SHORTNAME-db $SHORTNAME.zip
             mkdir lib-dbs/$SHORTNAME-db/
-            mv $SHORTNAME-db/`ls -1 $SHORTNAME-db`/* lib-dbs/$SHORTNAME-db/
+            mv $SHORTNAME-db/`ls -1 $SHORTNAME-db`/* lib-dbs/$SHORTNAME/
           }
 
-          downloadDatabase "apache/commons-codec" "commonsCodec"
+          downloadDatabase "apache/commons-codec"
       - name: Generate MaD (Baseline)
         run: |
           set -x
@@ -52,7 +52,8 @@ jobs:
           cd codeql-$MODE
           for d in $DATABASES/*/ ; do
             ls -1 "$d"
-            python java/ql/src/utils/model-generator/GenerateFlowModel.py $d $MODELS/${d}_${MODE}.qll
+            SHORTNAME=`basename $d`
+            python java/ql/src/utils/model-generator/GenerateFlowModel.py $d $MODELS/${SHORTNAME}_${MODE}.qll
             # remove 
             cp ../tmp-models/${d}_${MODE}.qll ../tmp-models/${d}_OTHER.qll
             echo "foo" >> ../tmp-models/${d}_OTHER.qll
