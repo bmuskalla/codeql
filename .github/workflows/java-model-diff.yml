@@ -40,7 +40,7 @@ jobs:
         run: |
           gh release download --repo "github/codeql-cli-binaries" --pattern "codeql-linux64.zip"
       - name: Unzip CodeQL CLI
-        run: unzip -d codeql-cli codeql-linux64.zip
+        run: unzip -q -d codeql-cli codeql-linux64.zip
       - name: Setup MaD comparison dbs
         run: |
           mkdir tmp-models
@@ -50,7 +50,7 @@ jobs:
           SHORTNAME="commons-io"
           projectId=`curl -s https://lgtm.com/api/v1.0/projects/g/$SLUG | jq .id`
           curl -L "https://lgtm.com/api/v1.0/snapshots/$projectId/java" -o $SHORTNAME.zip
-          unzip $SHORTNAME-db $SHORTNAME.zip
+          unzip -q -d $SHORTNAME-db $SHORTNAME.zip
           DATABASE=`pwd`/$SHORTNAME-db/`ls -1 $SHORTNAME-db`
           cd codeql-baseline
           echo `pwd`/codeql-cli/codeql >> $GITHUB_PATH
