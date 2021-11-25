@@ -65,10 +65,10 @@ if not targetQll.endswith(".qll"):
     targetQll += ".qll"
 filename = os.path.basename(targetQll)
 shortname = filename[:-4]
-generatedFrameworks = os.path.join(
-    codeQlRoot, "java/ql/lib/semmle/code/java/frameworks/")
+# generatedFrameworks = os.path.join(
+#     codeQlRoot, "java/ql/lib/semmle/code/java/frameworks/")
 # frameworkTarget = os.path.join(generatedFrameworks, targetQll)
-frameworkTarget = targetQll
+frameworkTarget = os.path.join(os.getcwd(), targetQll)
 
 workDir = tempfile.mkdtemp()
 os.makedirs(generatedFrameworks, exist_ok=True)
