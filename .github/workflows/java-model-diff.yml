@@ -31,13 +31,13 @@ jobs:
 #         uses: actions/setup-python@v2
 #         with:
 #           python-version: 3.8
-#       - name: Download CodeQL CLI
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#         run: |
-#           gh release download --repo "github/codeql-cli-binaries" --pattern "codeql-linux64.zip"
-#       - name: Unzip CodeQL CLI
-#         run: unzip -d codeql-cli codeql-linux64.zip
+      - name: Download CodeQL CLI
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download --repo "github/codeql-cli-binaries" --pattern "codeql-linux64.zip"
+      - name: Unzip CodeQL CLI
+        run: unzip -d codeql-cli codeql-linux64.zip
       - name: Setup MaD comparison
         run: |
           mkdir tmp-models
@@ -48,7 +48,7 @@ jobs:
           projectId=`curl -s https://lgtm.com/api/v1.0/projects/g/$SLUG | jq .id`
           curl -L "https://lgtm.com/api/v1.0/snapshots/$projectId/java" -o $SHORTNAME.zip
           cd codeql-baseline
-          python java/ql/src/utils/model-generator/GenerateFlowModel.py $SHORTNAME.zip tmp-models/$SHORTNAME.qll
+          PATH="$PATH:codeql-cli/codeql" python java/ql/src/utils/model-generator/GenerateFlowModel.py $SHORTNAME.zip tmp-models/$SHORTNAME.qll
           git add tmp-models/$SHORTNAME.qll
       #  PATH="$PATH:codeql-cli/codeql" python java/ql/src/utils/model-generator/GenerateFlowModel.py $SHORTNAME.zip tmp-models/$SHORTNAME.qll
       - name: Show diff
