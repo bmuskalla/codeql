@@ -41,7 +41,7 @@ jobs:
       #     gh release download --repo "github/codeql-cli-binaries" --pattern "codeql-linux64.zip"
       # - name: Unzip CodeQL CLI
       #   run: unzip -q -d codeql-cli codeql-linux64.zip
-      - uses: ./.github/actions/fetch-codeql
+      - uses: ./codeql-baseline/.github/actions/fetch-codeql
       - name: Setup MaD comparison dbs
         run: |
           mkdir tmp-models
