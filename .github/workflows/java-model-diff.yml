@@ -48,7 +48,8 @@ jobs:
           projectId=`curl -s https://lgtm.com/api/v1.0/projects/g/$SLUG | jq .id`
           curl -L "https://lgtm.com/api/v1.0/snapshots/$projectId/java" -o $SHORTNAME.zip
           cd codeql-baseline
-          PATH="$PATH:codeql-cli/codeql" python java/ql/src/utils/model-generator/GenerateFlowModel.py $SHORTNAME.zip tmp-models/$SHORTNAME.qll
+          echo `pwd`/codeql-cli >> $GITHUB_PATH
+          python java/ql/src/utils/model-generator/GenerateFlowModel.py $SHORTNAME.zip tmp-models/$SHORTNAME.qll
           git add tmp-models/$SHORTNAME.qll
       #  PATH="$PATH:codeql-cli/codeql" python java/ql/src/utils/model-generator/GenerateFlowModel.py $SHORTNAME.zip tmp-models/$SHORTNAME.qll
       - name: Show diff
