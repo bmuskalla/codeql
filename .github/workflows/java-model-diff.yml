@@ -56,7 +56,7 @@ jobs:
           DATABASE=`pwd`/$SHORTNAME-db/`ls -1 $SHORTNAME-db`
           cd codeql-$MODE
           python java/ql/src/utils/model-generator/GenerateFlowModel.py $DATABASE ../tmp-models/${SHORTNAME}_${MODE}.qll
-
+          cd ..
           cp tmp-models/${SHORTNAME}_${MODE}.qll tmp-models/${SHORTNAME}_OTHER.qll
           echo "foo" >> tmp-models/${SHORTNAME}_OTHER.qll
           diff --color always -w -u tmp-models/${SHORTNAME}_${MODE}.qll tmp-models/${SHORTNAME}_OTHER.qll
