@@ -55,8 +55,8 @@ jobs:
             SHORTNAME=`basename $d`
             python java/ql/src/utils/model-generator/GenerateFlowModel.py $d $MODELS/${SHORTNAME}_${MODE}.qll
             # remove 
-            cp ../tmp-models/${d}_${MODE}.qll ../tmp-models/${d}_OTHER.qll
-            echo "foo" >> ../tmp-models/${d}_OTHER.qll
+            cp $MODELS/${SHORTNAME}_${MODE}.qll $MODELS/${SHORTNAME}_OTHER.qll
+            echo "foo" >> $MODELS/${SHORTNAME}_OTHER.qll
           done          
       - uses: actions/upload-artifact@v2
         with:
@@ -65,7 +65,9 @@ jobs:
       - name: Diff MaD
         run: |
           set -x
-          SHORTNAME="commonsCodec"
-          MODE="baseline"
+          MODELS=`pwd`/tmp-models
           ls -1 tmp-models/
-          (diff --color=always -w -u tmp-models/${SHORTNAME}_${MODE}.qll tmp-models/${SHORTNAME}_OTHER.qll) || true
+          for m in $MODELS/*_baseline.qll ; do
+            t="${m/baseline/"OTHER"}"
+            (diff --color=always -w -u $m $t) || true
+          done
