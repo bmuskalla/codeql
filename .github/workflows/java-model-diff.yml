@@ -24,7 +24,7 @@ jobs:
       - name: Clone self (github/codeql) with new generator
         uses: actions/checkout@v2
         with:
-          path: codeql-current
+          path: codeql-head
           ref: ${{ github.ref }}
       - uses: ./codeql-baseline/.github/actions/fetch-codeql
       - name: Setup MaD comparison dbs
@@ -42,6 +42,11 @@ jobs:
           }
 
           downloadDatabase "apache/commons-codec"
+          # downloadDatabase "apache/commons-io"
+          # downloadDatabase "apache/commons-beanutils"
+          # downloadDatabase "apache/commons-lang"
+          # downloadDatabase "apache/commons-validator"
+          # downloadDatabase "apache/commons-csv"
       - name: Generate MaD (Baseline)
         run: |
           set -x
@@ -49,14 +54,21 @@ jobs:
           MODELS=`pwd`/tmp-models
           MODE="baseline"
           DATABASES=`pwd`/lib-dbs
-          cd codeql-$MODE
+
+          analyzeDatabaseWithCheckout() {
+            QL_VARIANT=$1
+            DATABASE=$2
+            cd codeql-$QL_VARIANT
+            SHORTNAME=`basename $DATABASE`
+            python java/ql/src/utils/model-generator/GenerateFlowModel.py $DATABASE $MODELS/${SHORTNAME}_${QL_VARIANT}.qll
+            echo "$QL_VARIANT" >> $MODELS/${SHORTNAME}_${QL_VARIANT}.qll
+          }
+          
           for d in $DATABASES/*/ ; do
             ls -1 "$d"
-            SHORTNAME=`basename $d`
-            python java/ql/src/utils/model-generator/GenerateFlowModel.py $d $MODELS/${SHORTNAME}_${MODE}.qll
-            # remove 
-            cp $MODELS/${SHORTNAME}_${MODE}.qll $MODELS/${SHORTNAME}_OTHER.qll
-            echo "foo" >> $MODELS/${SHORTNAME}_OTHER.qll
+
+            analyzeDatabaseWithCheckout "baseline" $d
+            analyzeDatabaseWithCheckout "head" $d
           done          
       - uses: actions/upload-artifact@v2
         with:
@@ -68,6 +80,6 @@ jobs:
           MODELS=`pwd`/tmp-models
           ls -1 tmp-models/
           for m in $MODELS/*_baseline.qll ; do
-            t="${m/baseline/"OTHER"}"
+            t="${m/baseline/"head"}"
             (diff --color=always -w -u $m $t) || true
           done
