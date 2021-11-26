@@ -10,6 +10,7 @@ on:
       - main
     paths:
       - "java/ql/src/utils/model-generator/**/*.*"
+      - "java/documentation/library-coverage/coverage.csv"
 
 jobs:
   model-diff:
