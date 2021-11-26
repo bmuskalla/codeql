@@ -55,14 +55,15 @@ jobs:
           # guava
           # hibernate
           # aws
-          
-          downloadDatabase "FasterXML/jackson-core"
-          downloadDatabase "FasterXML/jackson-databind"
-          downloadDatabase "google/gson"
-          downloadDatabase "JodaOrg/joda-time"
-          downloadDatabase "apache/poi"
-          downloadDatabase "apache/commons-logging"
-          downloadDatabase "apache/commons-fileupload"
+          downloadDatabase "google/guava"
+
+          # downloadDatabase "FasterXML/jackson-core"
+          # downloadDatabase "FasterXML/jackson-databind"
+          # downloadDatabase "google/gson"
+          # downloadDatabase "JodaOrg/joda-time"
+          # downloadDatabase "apache/poi"
+          # downloadDatabase "apache/commons-logging"
+          # downloadDatabase "apache/commons-fileupload"
           
 
       - name: Generate MaD (Baseline)
