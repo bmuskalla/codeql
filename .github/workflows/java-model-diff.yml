@@ -20,7 +20,13 @@ jobs:
     #   url: https://github.com
     strategy:
       matrix:
-        slugs: ["apache/commons-codec", "apache/commons-io", "apache/commons-beanutils", "apache/commons-lang", "apache/commons-validator", "apache/commons-csv"]
+        # large
+        # ["google/guava", "spring-projects/spring-framework", "apache/poi"]
+        # others
+        # ["FasterXML/jackson-core", "FasterXML/jackson-databind", "google/gson", "JodaOrg/joda-time"
+        # apache
+        # ["apache/commons-codec", "apache/commons-io", "apache/commons-beanutils", "apache/commons-logging", "apache/commons-fileupload", "apache/commons-lang", "apache/commons-validator", "apache/commons-csv"]
+        slugs: ["netty/netty", "apache/pdfbox", "apache/dubbo"]
     steps:
       - name: Clone self (github/codeql) for baseline
         uses: actions/checkout@v2
@@ -48,32 +54,7 @@ jobs:
             mkdir lib-dbs/$SHORTNAME/
             mv $SHORTNAME-db/`ls -1 $SHORTNAME-db`/* lib-dbs/$SHORTNAME/
           }
-
-          # downloadDatabase "apache/commons-codec"
-          # downloadDatabase "apache/commons-io"
-          # downloadDatabase "apache/commons-beanutils"
-          # downloadDatabase "apache/commons-lang"
-          # downloadDatabase "apache/commons-validator"
-          # downloadDatabase "apache/commons-csv"
-
-          # TODO
-          # spring-projects/spring-framework
-          # guava
-          # hibernate
-          # aws
-          # downloadDatabase "google/guava"
-          # downloadDatabase "spring-projects/spring-framework"
-
-          # downloadDatabase "FasterXML/jackson-core"
-          # downloadDatabase "FasterXML/jackson-databind"
-          # downloadDatabase "google/gson"
-          # downloadDatabase "JodaOrg/joda-time"
-          # downloadDatabase "apache/poi"
-          # downloadDatabase "apache/commons-logging"
-          # downloadDatabase "apache/commons-fileupload"
           downloadDatabase $SLUG
-          
-
       - name: Generate MaD (Baseline)
         run: |
           set -x
