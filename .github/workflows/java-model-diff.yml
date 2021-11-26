@@ -43,12 +43,28 @@ jobs:
             mv $SHORTNAME-db/`ls -1 $SHORTNAME-db`/* lib-dbs/$SHORTNAME/
           }
 
-          downloadDatabase "apache/commons-codec"
-          downloadDatabase "apache/commons-io"
-          downloadDatabase "apache/commons-beanutils"
-          downloadDatabase "apache/commons-lang"
-          downloadDatabase "apache/commons-validator"
-          downloadDatabase "apache/commons-csv"
+          # downloadDatabase "apache/commons-codec"
+          # downloadDatabase "apache/commons-io"
+          # downloadDatabase "apache/commons-beanutils"
+          # downloadDatabase "apache/commons-lang"
+          # downloadDatabase "apache/commons-validator"
+          # downloadDatabase "apache/commons-csv"
+
+          # TODO
+          # spring-projects/spring-framework
+          # guava
+          # hibernate
+          # aws
+          
+          downloadDatabase "FasterXML/jackson-core"
+          downloadDatabase "FasterXML/jackson-databind"
+          downloadDatabase "google/gson"
+          downloadDatabase "JodaOrg/joda-time"
+          downloadDatabase "apache/poi"
+          downloadDatabase "apache/commons-logging"
+          downloadDatabase "apache/commons-fileupload"
+          
+
       - name: Generate MaD (Baseline)
         run: |
           set -x
