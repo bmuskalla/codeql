@@ -82,7 +82,8 @@ jobs:
           ls -1 tmp-models/
           for m in $MODELS/*_baseline.qll ; do
             t="${m/baseline/"head"}"
-            name="${m/baseline/""}"
+            basename=`basename $m`
+            name="diff_${basename/_baseline.qll/""}"
             (diff --color=always -w -u $m $t | diff2html -i stdin -F $MODELS/$name.html) || true
           done
       - uses: actions/upload-artifact@v2
