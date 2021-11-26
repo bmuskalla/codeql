@@ -19,7 +19,7 @@ jobs:
     #   url: https://github.com
     strategy:
       matrix:
-        slugs: ["apache/commons-codec", "apache/commons-beanutils"]
+        slugs: ["apache/commons-codec", "apache/commons-io", "apache/commons-beanutils", "apache/commons-lang", "apache/commons-validator", "apache/commons-csv"]
     steps:
       - name: Clone self (github/codeql) for baseline
         uses: actions/checkout@v2
@@ -48,12 +48,12 @@ jobs:
             mv $SHORTNAME-db/`ls -1 $SHORTNAME-db`/* lib-dbs/$SHORTNAME/
           }
 
-          downloadDatabase "apache/commons-codec"
-          downloadDatabase "apache/commons-io"
-          downloadDatabase "apache/commons-beanutils"
-          downloadDatabase "apache/commons-lang"
-          downloadDatabase "apache/commons-validator"
-          downloadDatabase "apache/commons-csv"
+          # downloadDatabase "apache/commons-codec"
+          # downloadDatabase "apache/commons-io"
+          # downloadDatabase "apache/commons-beanutils"
+          # downloadDatabase "apache/commons-lang"
+          # downloadDatabase "apache/commons-validator"
+          # downloadDatabase "apache/commons-csv"
 
           # TODO
           # spring-projects/spring-framework
