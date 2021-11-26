@@ -44,10 +44,10 @@ jobs:
           }
 
           downloadDatabase "apache/commons-codec"
-          # downloadDatabase "apache/commons-io"
-          # downloadDatabase "apache/commons-beanutils"
-          # downloadDatabase "apache/commons-lang"
-          # downloadDatabase "apache/commons-validator"
+          downloadDatabase "apache/commons-io"
+          downloadDatabase "apache/commons-beanutils"
+          downloadDatabase "apache/commons-lang"
+          downloadDatabase "apache/commons-validator"
           downloadDatabase "apache/commons-csv"
       - name: Generate MaD (Baseline)
         run: |
