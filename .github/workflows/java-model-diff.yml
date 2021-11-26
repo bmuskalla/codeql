@@ -82,7 +82,6 @@ jobs:
             SHORTNAME=`basename $DATABASE`
             python java/ql/src/utils/model-generator/GenerateFlowModel.py $DATABASE $MODELS/${SHORTNAME}.qll
             mv $MODELS/${SHORTNAME}.qll $MODELS/${SHORTNAME}_${QL_VARIANT}.qll
-            echo "$QL_VARIANT" >> $MODELS/${SHORTNAME}_${QL_VARIANT}.qll
             cd ..
           }
           
@@ -102,7 +101,8 @@ jobs:
             t="${m/baseline/"head"}"
             basename=`basename $m`
             name="diff_${basename/_baseline.qll/""}"
-            (diff --color=always -w -u $m $t | diff2html -i stdin -F $MODELS/$name.html) || true
+            (diff -w -u $m $t) || true
+            (diff -w -u $m $t | diff2html -i stdin -F $MODELS/$name.html) || true
           done
       - uses: actions/upload-artifact@v2
         with:
