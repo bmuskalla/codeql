@@ -55,7 +55,8 @@ jobs:
           # guava
           # hibernate
           # aws
-          downloadDatabase "google/guava"
+          # downloadDatabase "google/guava"
+          downloadDatabase "spring-projects/spring-framework"
 
           # downloadDatabase "FasterXML/jackson-core"
           # downloadDatabase "FasterXML/jackson-databind"
