@@ -53,7 +53,7 @@ predicate usedInHash(RefType t, Expr e) {
   )
 }
 
-from RefType t, Expr e
+from RefType t, Expr e, Method m
 where
   usedInHash(t, e) and
   eqNoHash(t.getSourceDeclaration())
