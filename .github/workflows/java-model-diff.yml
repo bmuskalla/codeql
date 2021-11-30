@@ -6,32 +6,26 @@ on:
       - main
   workflow_dispatch:
     inputs:
-        projects:
-          description: 'The projects to generate models for'     
-          required: true
-          default: '["netty/netty"]'
+      projects:
+        description: "The projects to generate models for"
+        required: true
+        default: '["netty/netty"]'
   pull_request:
     branches:
       - main
     paths:
       - "java/ql/src/utils/model-generator/**/*.*"
-      - "java/documentation/library-coverage/coverage.csv"
 
 jobs:
   model-diff:
     runs-on: ubuntu-latest
-    # environment:
-    #   name: models
-    #   url: https://github.com
     strategy:
       matrix:
         # large
         # ["google/guava", "spring-projects/spring-framework", "apache/poi"]
         # others
         # ["FasterXML/jackson-core", "FasterXML/jackson-databind", "google/gson", "JodaOrg/joda-time"
-        # apache
-        # ["apache/commons-codec", "apache/commons-io", "apache/commons-beanutils", "apache/commons-logging", "apache/commons-fileupload", "apache/commons-lang", "apache/commons-validator", "apache/commons-csv"]
-        slugs: ${{fromJson(github.event.inputs.projects || '["apache/commons-codec", "apache/commons-io", "apache/commons-beanutils", "apache/commons-logging", "apache/commons-fileupload", "apache/commons-lang", "apache/commons-validator", "apache/commons-csv", "apache/dubbo"]' )}}
+        slugs: ${{fromJson(github.event.inputs.projects || '["apache/commons-codec", "apache/commons-io", "apache/commons-beanutils", "apache/commons-logging", "apache/commons-fileupload", "apache/commons-lang", "apache/commons-validator", "apache/commons-csv"]' )}}
     steps:
       - name: Clone self (github/codeql) for baseline
         uses: actions/checkout@v2
@@ -44,23 +38,19 @@ jobs:
           path: codeql-head
           ref: ${{ github.ref }}
       - uses: ./codeql-baseline/.github/actions/fetch-codeql
-      - name: Setup MaD comparison dbs
+      - name: Download database
         env:
           SLUG: ${{ matrix.slugs }}
         run: |
           set -x
           mkdir lib-dbs
-          downloadDatabase() {
-            SLUG=$1
-            SHORTNAME=${SLUG//[^a-zA-Z0-9_]/}
-            projectId=`curl -s https://lgtm.com/api/v1.0/projects/g/$SLUG | jq .id`
-            curl -L "https://lgtm.com/api/v1.0/snapshots/$projectId/java" -o $SHORTNAME.zip
-            unzip -q -d $SHORTNAME-db $SHORTNAME.zip
-            mkdir lib-dbs/$SHORTNAME/
-            mv $SHORTNAME-db/`ls -1 $SHORTNAME-db`/* lib-dbs/$SHORTNAME/
-          }
-          downloadDatabase $SLUG
-      - name: Generate MaD (Baseline)
+          SHORTNAME=${SLUG//[^a-zA-Z0-9_]/}
+          projectId=`curl -s https://lgtm.com/api/v1.0/projects/g/$SLUG | jq .id`
+          curl -L "https://lgtm.com/api/v1.0/snapshots/$projectId/java" -o $SHORTNAME.zip
+          unzip -q -d $SHORTNAME-db $SHORTNAME.zip
+          mkdir lib-dbs/$SHORTNAME/
+          mv $SHORTNAME-db/`ls -1 $SHORTNAME-db`/* lib-dbs/$SHORTNAME/
+      - name: Generate Models (Baseline and HEAD)
         run: |
           set -x
           mkdir tmp-models
@@ -77,14 +67,14 @@ jobs:
             mv $MODELS/${SHORTNAME}.qll $MODELS/${SHORTNAME}_${QL_VARIANT}.qll
             cd ..
           }
-          
+
           for d in $DATABASES/*/ ; do
             ls -1 "$d"
 
             analyzeDatabaseWithCheckout "baseline" $d
             analyzeDatabaseWithCheckout "head" $d
-          done          
-      - name: Diff MaD
+          done
+      - name: Generate Model Diff
         run: |
           set -x
           npm install -g diff2html-cli
@@ -94,16 +84,15 @@ jobs:
             t="${m/baseline/"head"}"
             basename=`basename $m`
             name="diff_${basename/_baseline.qll/""}"
-            (diff -w -u $m $t) || true
             (diff -w -u $m $t | diff2html -i stdin -F $MODELS/$name.html) || true
           done
       - uses: actions/upload-artifact@v2
         with:
           name: models
           path: tmp-models/*.qll
-          retention-days: 5
+          retention-days: 20
       - uses: actions/upload-artifact@v2
         with:
           name: diffs
           path: tmp-models/*.html
-          retention-days: 5
+          retention-days: 20
