@@ -30,5 +30,6 @@ jobs:
       - uses: github/codeql-action/init@v1
         with:
           queries: "./java/ql/src/Diagnostics/CoverageDiagnostics.ql"
+          languages: java
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
