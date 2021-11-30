@@ -16,10 +16,10 @@ jobs:
     env:
       LANGUAGE: ${{ matrix.language }}
     steps:
-      - name: Setup CodeQL
-        uses: ./.github/actions/fetch-codeql
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Setup CodeQL
+        uses: ./.github/actions/fetch-codeql
       - name: Create empty database
         run: |
           DATABASE="${{ runner.temp }}/${LANGUAGE}-database"
