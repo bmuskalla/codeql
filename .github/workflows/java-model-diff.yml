@@ -26,7 +26,7 @@ jobs:
         # ["FasterXML/jackson-core", "FasterXML/jackson-databind", "google/gson", "JodaOrg/joda-time"
         # apache
         # ["apache/commons-codec", "apache/commons-io", "apache/commons-beanutils", "apache/commons-logging", "apache/commons-fileupload", "apache/commons-lang", "apache/commons-validator", "apache/commons-csv"]
-        slugs: ["netty/netty", "apache/pdfbox", "apache/dubbo"]
+        slugs: ["apache/commons-codec", "apache/commons-io", "apache/commons-beanutils", "apache/commons-logging", "apache/commons-fileupload", "apache/commons-lang", "apache/commons-validator", "apache/commons-csv", "apache/dubbo"]
     steps:
       - name: Clone self (github/codeql) for baseline
         uses: actions/checkout@v2
