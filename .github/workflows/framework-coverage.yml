@@ -19,10 +19,11 @@ jobs:
       - name: Create empty database
         run: |
           DATABASE="${{ runner.temp }}/java-database"
-          codeql database init --language=java --source-root=src/tmp/empty $DATABASE
-          mkdir -p src/tmp/empty
-          touch src/tmp/empty/Empty.java
-          javac src/main/java/Empty.java
+          PROJECT="${{ runner.temp }}/java-project"
+          codeql database init --language=java --source-root=$PROJECT/src/tmp/empty $DATABASE
+          mkdir -p $PROJECT/src/tmp/empty
+          touch $PROJECT/src/tmp/empty/Empty.java
+          javac $PROJECT/src/main/java/Empty.java
           codeql database finalize $DATABASE --no-pre-finalize
       - uses: github/codeql-action/init@v1
         with:
