@@ -24,7 +24,7 @@ jobs:
     #   name: models
     #   url: https://github.com
     env:
-      DEFAULT_PROJECTS='["apache/commons-codec", "apache/commons-io", "apache/commons-beanutils", "apache/commons-logging", "apache/commons-fileupload", "apache/commons-lang", "apache/commons-validator", "apache/commons-csv", "apache/dubbo"]'
+      DEFAULT_PROJECTS: '["apache/commons-codec", "apache/commons-io", "apache/commons-beanutils", "apache/commons-logging", "apache/commons-fileupload", "apache/commons-lang", "apache/commons-validator", "apache/commons-csv", "apache/dubbo"]'
     strategy:
       matrix:
         # large
