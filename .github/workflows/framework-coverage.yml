@@ -29,6 +29,6 @@ jobs:
           codeql database finalize $DATABASE --no-pre-finalize
       - uses: github/codeql-action/init@v1
         with:
-          queries: "java/ql/src/Diagnostics/CoverageDiagnostics.ql"
+          queries: "./java/ql/src/Diagnostics/CoverageDiagnostics.ql"
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
