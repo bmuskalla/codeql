@@ -1,0 +1,34 @@
+name: "Publish fragemwork coverage as diagnostics"
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        language: [java]
+    env:
+      LANGUAGE: ${{ matrix.language }}
+    steps:
+      - name: Setup CodeQL
+        uses: ./.github/actions/fetch-codeql
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Create empty database
+        run: |
+          DATABASE="${{ runner.temp }}/${LANGUAGE}-database"
+          codeql database init --language=${LANGUAGE} --source-root=/tmp/empty --allow-missing-source-root $DATABASE
+          mkdir -p ${DATABASE}/src/tmp/empty
+          touch ${DATABASE}/src/tmp/empty/empty.${LANGUAGE}
+          codeql database finalize $DATABASE --no-pre-finalize
+      - uses: github/codeql-action/init@v1
+        with:
+          queries: "java/ql/src/Diagnostics/CoverageDiagnostics.ql"
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
