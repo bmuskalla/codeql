@@ -11,10 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
-      matrix:
-        language: [java]
-    env:
-      LANGUAGE: ${{ matrix.language }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -22,10 +18,11 @@ jobs:
         uses: ./.github/actions/fetch-codeql
       - name: Create empty database
         run: |
-          DATABASE="${{ runner.temp }}/${LANGUAGE}-database"
-          codeql database init --language=${LANGUAGE} --source-root=/tmp/empty --allow-missing-source-root $DATABASE
-          mkdir -p ${DATABASE}/src/tmp/empty
-          touch ${DATABASE}/src/tmp/empty/empty.${LANGUAGE}
+          DATABASE="${{ runner.temp }}/java-database"
+          codeql database init --language=java --source-root=src/tmp/empty $DATABASE
+          mkdir -p src/tmp/empty
+          touch src/tmp/empty/Empty.java
+          javac src/main/java/Empty.java
           codeql database finalize $DATABASE --no-pre-finalize
       - uses: github/codeql-action/init@v1
         with:
