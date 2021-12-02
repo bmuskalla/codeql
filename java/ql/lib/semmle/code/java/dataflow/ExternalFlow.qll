@@ -85,10 +85,25 @@ private module Frameworks {
   private import semmle.code.java.frameworks.android.XssSinks
   private import semmle.code.java.frameworks.ApacheHttp
   private import semmle.code.java.frameworks.apache.Collections
-  private import semmle.code.java.frameworks.apache.IO
+  // private import semmle.code.java.frameworks.apache.IO
   private import semmle.code.java.frameworks.apache.Lang
   private import semmle.code.java.frameworks.Flexjson
   private import semmle.code.java.frameworks.guava.Guava
+  private import semmle.code.java.frameworks.generated.apachecommonsbeanutils
+  private import semmle.code.java.frameworks.generated.apachecommonscodec
+  private import semmle.code.java.frameworks.generated.apachecommonscsv
+  private import semmle.code.java.frameworks.generated.apachecommonsfileupload
+  private import semmle.code.java.frameworks.generated.apachecommonsio
+  private import semmle.code.java.frameworks.generated.apachecommonslang
+  private import semmle.code.java.frameworks.generated.apachecommonslogging
+  private import semmle.code.java.frameworks.generated.apachecommonsvalidator
+  private import semmle.code.java.frameworks.generated.apachepoi
+  private import semmle.code.java.frameworks.generated.FasterXMLjacksoncore
+  private import semmle.code.java.frameworks.generated.FasterXMLjacksondatabind
+  private import semmle.code.java.frameworks.generated.googlegson
+  private import semmle.code.java.frameworks.generated.JodaOrgjodatime
+  private import semmle.code.java.frameworks.generated.nettynetty
+  private import semmle.code.java.frameworks.generated.springprojectsspringframework
   private import semmle.code.java.frameworks.jackson.JacksonSerializability
   private import semmle.code.java.frameworks.javaee.jsf.JSFRenderer
   private import semmle.code.java.frameworks.JavaIo
