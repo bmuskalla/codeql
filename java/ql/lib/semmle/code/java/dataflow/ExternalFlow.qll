@@ -89,6 +89,7 @@ private module Frameworks {
   private import semmle.code.java.frameworks.apache.Lang
   private import semmle.code.java.frameworks.Flexjson
   private import semmle.code.java.frameworks.guava.Guava
+  private import semmle.code.java.frameworks.generated.alibabafastjson
   private import semmle.code.java.frameworks.generated.apachecommonsbeanutils
   private import semmle.code.java.frameworks.generated.apachecommonscodec
   private import semmle.code.java.frameworks.generated.apachecommonscsv
@@ -96,14 +97,23 @@ private module Frameworks {
   private import semmle.code.java.frameworks.generated.apachecommonsio
   private import semmle.code.java.frameworks.generated.apachecommonslang
   private import semmle.code.java.frameworks.generated.apachecommonslogging
+  private import semmle.code.java.frameworks.generated.apachecommonstext
   private import semmle.code.java.frameworks.generated.apachecommonsvalidator
   private import semmle.code.java.frameworks.generated.apachepoi
+  private import semmle.code.java.frameworks.generated.apacheshiro_baseline
+  private import semmle.code.java.frameworks.generated.crossoverJieJCSprout
+  private import semmle.code.java.frameworks.generated.dromarahutool
   private import semmle.code.java.frameworks.generated.FasterXMLjacksoncore
   private import semmle.code.java.frameworks.generated.FasterXMLjacksondatabind
   private import semmle.code.java.frameworks.generated.googlegson
   private import semmle.code.java.frameworks.generated.JodaOrgjodatime
+  private import semmle.code.java.frameworks.generated.netplexjsonsmartv2
   private import semmle.code.java.frameworks.generated.nettynetty
+  private import semmle.code.java.frameworks.generated.springprojectsspringboot
   private import semmle.code.java.frameworks.generated.springprojectsspringframework
+  private import semmle.code.java.frameworks.generated.squaremoshi
+  private import semmle.code.java.frameworks.generated.squareokio
+  private import semmle.code.java.frameworks.generated.squareretrofit
   private import semmle.code.java.frameworks.jackson.JacksonSerializability
   private import semmle.code.java.frameworks.javaee.jsf.JSFRenderer
   private import semmle.code.java.frameworks.JavaIo
