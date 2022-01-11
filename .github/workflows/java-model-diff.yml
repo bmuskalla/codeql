@@ -37,7 +37,7 @@ jobs:
         with:
           path: codeql-head
           ref: ${{ github.ref }}
-      - uses: ./codeql-baseline/.github/actions/fetch-codeql
+      - uses: ./codeql-head/.github/actions/fetch-codeql
       - name: Download database
         env:
           SLUG: ${{ matrix.slug }}
