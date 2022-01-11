@@ -40,6 +40,7 @@ string captureQualifierFlow(TargetAPI api) {
   result = asValueModel(api, "Argument[-1]", "ReturnValue")
 }
 
+// asdasd
 class FieldToReturnConfig extends TaintTracking::Configuration {
   FieldToReturnConfig() { this = "FieldToReturnConfig" }
 
