@@ -45,7 +45,7 @@ jobs:
           set -x
           mkdir lib-dbs
           SHORTNAME=${SLUG//[^a-zA-Z0-9_]/}
-          projectId=`curl -s https://lgtm.com/api/v1.0/projects/g/${SLUG}} | jq .id`
+          projectId=`curl -s https://lgtm.com/api/v1.0/projects/g/${SLUG} | jq .id`
           curl -L "https://lgtm.com/api/v1.0/snapshots/$projectId/java" -o "$SHORTNAME.zip"
           unzip -q -d $"SHORTNAME-db" "$SHORTNAME.zip"
           mkdir "lib-dbs/$SHORTNAME/"
