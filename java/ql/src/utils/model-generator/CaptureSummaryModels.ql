@@ -13,10 +13,10 @@ import semmle.code.java.dataflow.InstanceAccess
 import ModelGeneratorUtils
 
 string captureFlow(TargetAPI api) {
-  result = captureQualifierFlow(api) or
-  result = captureParameterFlowToReturnValue(api) or
-  result = captureFieldFlowIn(api) or
-  result = captureParameterToParameterFlow(api) or
+  // result = captureQualifierFlow(api) or
+  // result = captureParameterFlowToReturnValue(api) or
+  // result = captureFieldFlowIn(api) or
+  // result = captureParameterToParameterFlow(api) or
   result = captureFieldFlow(api)
 }
 
