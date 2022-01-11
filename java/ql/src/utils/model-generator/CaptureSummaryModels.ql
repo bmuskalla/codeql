@@ -22,7 +22,7 @@ string captureFlow(TargetAPI api) {
 
 /**
  * Capture fluent APIs that return `this`.
- * Example of a fluent API:
+ * Example of a fluent API: XXX
  * ```
  * public class Foo {
  *   public Foo someAPI() {
