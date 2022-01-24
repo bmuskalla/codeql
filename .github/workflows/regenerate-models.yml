@@ -1,0 +1,23 @@
+name: Regenerate framework models
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 2 * * *"
+
+jobs:
+  regenerate-models:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone self (github/codeql)
+        uses: actions/checkout@v2
+      - name: Setup CodeQL binaries
+        uses: ./codeql-head/.github/actions/fetch-codeql
+      - name: Regenerate models in-place
+        run: |
+          java/ql/src/utils/model-generator/RegenerateModels.py
+      - name: Stage changes
+        run: |
+          find java -name "*.qll" -print0 | xargs -0 git add
+          git status
+      # PR
