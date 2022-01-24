@@ -50,7 +50,7 @@ for lgtmSlug, modelFile in lgtmSlugToModelFile.items():
     extractedDb = downloadLgtmDatabase(lgtmSlug)
     codeQlRoot = findGitRoot()
     targetModel = codeQlRoot + "/" + modelFile
-    subprocess.check_call(["./GenerateFlowModel.py", extractedDb,
+    subprocess.check_call([codeQlRoot + "/java/ql/src/utils/model-generator/GenerateFlowModel.py", extractedDb,
                            targetModel])
     print("Regenerated " + targetModel)
     shutil.rmtree(tmpDir)
