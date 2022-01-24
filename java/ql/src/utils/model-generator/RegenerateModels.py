@@ -13,9 +13,9 @@ import tempfile
 
 lgtmSlugToModelFile = {
     # "apache/commons-beanutils": "java/ql/lib/semmle/code/java/frameworks/apache/BeanUtilsGenerated.qll",
-    "apache/commons-codec": "java/ql/lib/semmle/code/java/frameworks/apache/CodecGenerated.qll",
+    # "apache/commons-codec": "java/ql/lib/semmle/code/java/frameworks/apache/CodecGenerated.qll",
     # "apache/commons-lang": "java/ql/lib/semmle/code/java/frameworks/apache/Lang3Generated.qll",
-    # "apache/commons-io": "java/ql/lib/semmle/code/java/frameworks/apache/IoGenerated.qll",
+    "apache/commons-io": "java/ql/lib/semmle/code/java/frameworks/apache/IoGenerated.qll",
 }
 
 
