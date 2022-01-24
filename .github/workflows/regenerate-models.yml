@@ -12,7 +12,7 @@ jobs:
       - name: Clone self (github/codeql)
         uses: actions/checkout@v2
       - name: Setup CodeQL binaries
-        uses: .github/actions/fetch-codeql
+        uses: ./.github/actions/fetch-codeql
       - name: Regenerate models in-place
         run: |
           java/ql/src/utils/model-generator/RegenerateModels.py
